@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, width=device-width" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+screens: {
+'mq450': { 'max': '450px' },
+'mq1950': { 'max': '1950px' },
+'mq2700': { 'max': '2700px' },
+}
+}
+}
+}
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:ital,wght@1,300;1,400&display=swap" />
+<style>
+.carousel-wrapper { overflow: hidden; width: 100%; background: #d9d9d9; padding: 48px 0; box-sizing: border-box; }
+@keyframes carousel-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.carousel-track { display: flex; width: max-content; animation: carousel-scroll 28s linear infinite; gap: 28px; padding: 0 14px; }
+.carousel-track:hover { animation-play-state: paused; }
+.carousel-card { flex-shrink: 0; width: clamp(180px, 14vw, 300px); background: #fff; border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.carousel-card:hover { transform: scale(1.04); box-shadow: 0 12px 40px rgba(0,0,0,0.25); }
+.carousel-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
+#lighter-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 9000; align-items: center; justify-content: center; flex-direction: column; gap: 32px; padding: 24px; box-sizing: border-box; }
+#lighter-modal.open { display: flex; }
+#modal-img { max-width: min(480px, 80vw); max-height: 60vh; object-fit: contain; border-radius: 10px; }
+#modal-added { color: #d4f500; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: italic; font-weight: 300; font-size: clamp(24px, 4vw, 48px); text-align: center; }
+#modal-close { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: italic; text-transform: uppercase; letter-spacing: 0.1em; font-size: clamp(14px, 2vw, 20px); color: #fff; background: transparent; border: 1px solid rgba(255,255,255,0.5); padding: 14px 48px; cursor: pointer; transition: border-color 0.15s; }
+#modal-close:hover { border-color: #fff; }
+#cart-toast { display: none; position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%); background: #d4f500; color: #000; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style: italic; font-weight: 400; font-size: clamp(16px, 2.5vw, 28px); padding: 18px 56px; z-index: 9100; white-space: nowrap; border-radius: 2px; opacity: 0; transition: opacity 0.2s ease; }
+#cart-toast.show { display: block; opacity: 1; }
+.want-btn { cursor: pointer; border: none; outline: none; background: #d4f500; transition: filter 0.15s; }
+.want-btn:hover { filter: brightness(1.07); }
+.access-link { text-decoration: none; display: block; width: 100%; }
+.access-link > div { transition: opacity 0.15s; }
+.access-link:hover > div { opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="w-full relative flex flex-col items-end leading-[normal] tracking-[normal] text-center text-[100px] text-[#000] font-['Helvetica_Neue']">
+<div class="self-stretch flex items-start justify-end py-0 pl-1.5 pr-[3px] box-border max-w-full">
+<div class="flex-1 flex items-start py-[50px] px-16 box-border relative isolate min-h-[2789px] max-w-full z-[1] lg:pl-8 lg:pr-8 lg:box-border">
+<img class="h-full w-full absolute !!m-[0 important] top-[0px] right-[0px] bottom-[0px] left-[0px] max-w-full overflow-hidden max-h-full object-cover shrink-0" loading="lazy" alt="" src="./Public/Group-129@2x.png" />
+<h2 class="m-0 w-[3414px] relative text-[length:inherit] leading-[120px] inline-block italic font-normal font-[inherit] whitespace-pre-wrap z-[1] shrink-0 lg:text-[50px] lg:leading-[72px] mq450:text-3xl mq450:leading-[48px]">
+LIMITED DROP 001 MOSCOW
+</h2>
+</div>
+</div>
+<main class="self-stretch bg-[#d9d9d9] flex flex-col items-start pt-[2560px] px-0 pb-[225px] box-border max-w-full mt-[-2426.7px] relative text-left text-[100px] text-[#6c6c6c] font-['Helvetica_Neue'] lg:pt-[2560px] lg:pb-5 lg:box-border">
+<div class="self-stretch h-[20728px] relative bg-[#d9d9d9] hidden z-[1] shrink-0"></div>
+<section class="self-stretch flex items-start pt-0 pb-[55px] pl-[203px] pr-[199px] box-border max-w-full shrink-0 text-center text-[400px] text-[#000] font-['Helvetica_Neue'] lg:pl-[50px] lg:pr-[49px] lg:pb-5 lg:box-border mq450:pl-5 mq450:pr-5 mq450:box-border">
+<h1 class="m-0 h-[2018px] flex-1 relative text-[length:inherit] uppercase inline-block italic font-normal font-[inherit] max-w-full z-[1] lg:text-[160px] mq450:text-[100px]">
+every non smoker has a<br />lighter obsession
+</h1>
+</section>
+<section class="self-stretch flex flex-col items-end gap-[171px] max-w-full mt-[-36px] relative shrink-0 text-left text-[150px] text-[#000] font-['Helvetica_Neue'] lg:gap-[43px] mq450:gap-[21px]">
+<div class="self-stretch flex items-start justify-end pt-0 pb-[47.8px] pl-[9px] pr-[3px] box-border max-w-full text-center text-9xl mq450:pb-[31px] mq450:box-border">
+<div class="flex-1 bg-[#d9e746] flex items-start pt-[63px] px-[553px] pb-[19px] box-border max-w-full z-[1] lg:pl-[138px] lg:pr-[138px] lg:box-border mq450:pt-[2560px] mq450:px-5 mq450:pb-5 mq450:box-border">
+<div class="h-[405px] w-[3550px] relative bg-[#d9e746] hidden max-w-full shrink-0"></div>
+<i class="h-[323px] w-[2402px] relative uppercase inline-block shrink-0 z-[2] lg:text-[51px] mq450:text-[32px]">LIMITED LIGHTER SETS CHOOSE YOUR DESIGN · NO REPEATS<br /></i>
+</div>
+</div>
+
+<!-- INFINITE CAROUSEL -->
+<div class="self-stretch pl-[9px] pr-[3px] box-border max-w-full z-[1]">
+<div class="carousel-wrapper">
+<div class="carousel-track" id="carousel-track">
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9407.JPG')"><img src="./Lighters/IMG_9407.JPG" alt="Lighter 1" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9408.JPG')"><img src="./Lighters/IMG_9408.JPG" alt="Lighter 2" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9409.JPG')"><img src="./Lighters/IMG_9409.JPG" alt="Lighter 3" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9410.JPG')"><img src="./Lighters/IMG_9410.JPG" alt="Lighter 4" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9411.JPG')"><img src="./Lighters/IMG_9411.JPG" alt="Lighter 5" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9412.JPG')"><img src="./Lighters/IMG_9412.JPG" alt="Lighter 6" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9413.JPG')"><img src="./Lighters/IMG_9413.JPG" alt="Lighter 7" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9414.JPG')"><img src="./Lighters/IMG_9414.JPG" alt="Lighter 8" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9415.JPG')"><img src="./Lighters/IMG_9415.JPG" alt="Lighter 9" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9416.JPG')"><img src="./Lighters/IMG_9416.JPG" alt="Lighter 10" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9407.JPG')"><img src="./Lighters/IMG_9407.JPG" alt="Lighter 1" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9408.JPG')"><img src="./Lighters/IMG_9408.JPG" alt="Lighter 2" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9409.JPG')"><img src="./Lighters/IMG_9409.JPG" alt="Lighter 3" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9410.JPG')"><img src="./Lighters/IMG_9410.JPG" alt="Lighter 4" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9411.JPG')"><img src="./Lighters/IMG_9411.JPG" alt="Lighter 5" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9412.JPG')"><img src="./Lighters/IMG_9412.JPG" alt="Lighter 6" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9413.JPG')"><img src="./Lighters/IMG_9413.JPG" alt="Lighter 7" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9414.JPG')"><img src="./Lighters/IMG_9414.JPG" alt="Lighter 8" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9415.JPG')"><img src="./Lighters/IMG_9415.JPG" alt="Lighter 9" loading="lazy" /></div>
+<div class="carousel-card" onclick="openModal('./Lighters/IMG_9416.JPG')"><img src="./Lighters/IMG_9416.JPG" alt="Lighter 10" loading="lazy" /></div>
+</div>
+</div>
+</div>
+
+<div class="self-stretch flex items-start justify-end pt-0 pb-[57px] pl-0 pr-[3px] box-border max-w-full text-center text-[#fff] mq450:pb-[37px] mq450:box-border">
+<div class="flex-1 bg-[#000] flex items-start pt-[113px] px-[1323px] pb-[103px] box-border max-w-full z-[1] lg:pl-[330px] lg:pr-[330px] lg:box-border mq450:pt-[2560px] mq450:px-5 mq450:pb-[67px] mq450:box-border">
+<div class="h-[405px] w-[3559px] relative bg-[#000] hidden max-w-full shrink-0"></div>
+<h2 class="m-0 h-[189px] w-[862px] relative text-[length:inherit] uppercase inline-block italic font-normal font-[inherit] max-w-full z-[2] shrink-0 lg:text-6xl mq450:text-[37px]">10 DESIGNS</h2>
+</div>
+</div>
+
+<div class="self-stretch flex items-start justify-end pt-0 pb-[57px] pl-[9px] pr-[3px] box-border max-w-full lg:pb-5 lg:box-border">
+<div class="flex-1 bg-[#fff] flex items-start justify-center flex-wrap content-start [row-gap:20px] max-w-full z-[1]">
+<div class="self-stretch w-[3550px] relative bg-[#fff] hidden max-w-full z-[1]"></div>
+<div class="flex-1 flex flex-col items-start py-0 pl-0 pr-[23px] box-border min-w-[965px] max-w-full lg:min-w-full">
+<img class="self-stretch relative max-w-full overflow-hidden max-h-full object-cover shrink-0 z-[2]" alt="" src="./Public/IMG-9411-5@2x.png" />
+</div>
+<img class="w-[1462px] relative max-h-full object-cover shrink-0 max-w-full z-[3] ml-[-194px]" alt="" src="./Public/IMG-9412-5@2x.png" />
+<img class="w-[991px] relative max-h-full object-cover shrink-0 max-w-full z-[2] ml-[-194px]" loading="lazy" alt="" src="./Public/IMG-9407-5@2x.png" />
+</div>
+</div>
+
+<div class="self-stretch flex items-start pt-0 pb-[296px] pl-[9px] pr-0 box-border max-w-full text-[400px] text-[#f2ff00] lg:pb-[53px] lg:box-border">
+<div class="flex-1 bg-[#000] flex flex-col items-start pt-[270px] pb-[250px] pl-[308px] pr-[104px] box-border gap-[355px] max-w-full z-[1] lg:gap-[89px] lg:pt-[2560px] lg:pb-11 lg:pl-[77px] lg:pr-[26px] lg:box-border mq450:gap-11 mq450:pl-5 mq450:box-border">
+<div class="w-[3553px] h-[4365px] relative bg-[#000] hidden max-w-full shrink-0"></div>
+<div class="self-stretch flex flex-col items-start gap-[117px] max-w-full shrink-0 lg:gap-[58px] mq450:gap-[29px]">
+<div class="self-stretch flex items-start py-0 pl-[31px] pr-0 box-border max-w-full">
+<div class="flex-1 flex items-start gap-[169px] max-w-full lg:gap-[42px] lg:flex-wrap mq1950:flex-wrap mq450:gap-[21px] mq450:flex-wrap mq2700:flex-wrap">
+<img class="w-[954px] relative max-h-full object-cover max-w-full z-[1] lg:flex-1 mq1950:flex-1 mq450:flex-1 mq2700:flex-1" loading="lazy" alt="" src="./Public/image-37@2x.png" />
+<div class="flex-1 flex flex-col items-start gap-[279px] min-w-[1292px] max-w-full lg:gap-[70px] mq1950:min-w-full mq450:gap-[35px]">
+<div class="self-stretch flex items-start justify-end max-w-full">
+<h1 class="m-0 w-[890px] relative text-[length:inherit] leading-[535px] uppercase inline-block italic font-light font-[inherit] max-w-full z-[2] lg:text-[160px] mq450:text-[100px]">590₽</h1>
+</div>
+<i class="w-[1636px] h-[504px] relative uppercase inline-block text-[#fff] max-w-full z-[2] text-[200px] lg:text-[51px] mq450:text-[32px]">
+<span>2 LIGHTERS<br /></span>
+<span class="text-9xl">ONE PICK · ONE SURPRISE</span>
+</i>
+</div>
+</div>
+</div>
+
+<button onclick="showToast()" class="want-btn flex items-start pt-[69px] px-[1051px] pb-[59px] box-border max-w-full z-[2] text-[150px] text-[#000] lg:pl-[262px] lg:pr-[262px] lg:box-border mq450:pl-5 mq450:pr-5 mq450:box-border">
+<div class="h-[317px] w-[2954px] relative hidden max-w-full shrink-0"></div>
+<h2 class="m-0 h-[189px] w-[851px] relative text-[length:inherit] uppercase inline-block italic font-light font-[inherit] z-[3] shrink-0 lg:text-6xl mq450:text-[37px]">I want this</h2>
+</button>
+</div>
+
+<div class="self-stretch flex flex-col items-start gap-[111px] max-w-full shrink-0 lg:gap-[55px] mq450:gap-7">
+<div class="self-stretch flex items-start py-0 pl-[30px] pr-0 box-border max-w-full">
+<div class="flex-1 flex items-start gap-[170px] max-w-full lg:gap-[42px] lg:flex-wrap mq1950:flex-wrap mq450:gap-[21px] mq450:flex-wrap mq2700:flex-wrap">
+<img class="w-[954px] relative max-h-full object-cover max-w-full z-[1] lg:flex-1 mq1950:flex-1 mq450:flex-1 mq2700:flex-1" loading="lazy" alt="" src="./Public/image-38@2x.png" />
+<div class="flex-1 flex flex-col items-start gap-[19px] min-w-[1292px] max-w-full mq1950:min-w-full">
+<div class="self-stretch flex items-start justify-end max-w-full">
+<h2 class="m-0 w-[890px] relative text-[length:inherit] leading-[535px] uppercase inline-block italic font-light font-[inherit] max-w-full z-[2] lg:text-[160px] mq450:text-[100px]">890₽</h2>
+</div>
+<i class="w-[1417px] h-[756px] relative uppercase inline-block text-[#fff] max-w-full z-[2] text-[200px] lg:text-[51px] mq450:text-[32px]">
+<span>LIGHTER <br />+ PALO SANTO<br /></span>
+<span class="text-9xl">FIRE & SMOKE</span>
+</i>
+</div>
+</div>
+</div>
+
+<button onclick="showToast()" class="want-btn flex items-start pt-[69px] px-[1051px] pb-[59px] box-border max-w-full z-[2] text-[150px] text-[#000] lg:pl-[262px] lg:pr-[262px] lg:box-border mq450:pl-5 mq450:pr-5 mq450:box-border">
+<div class="h-[317px] w-[2954px] relative hidden max-w-full shrink-0"></div>
+<h2 class="m-0 h-[189px] w-[851px] relative text-[length:inherit] uppercase inline-block italic font-light font-[inherit] z-[3] shrink-0 lg:text-6xl mq450:text-[37px]">I want this</h2>
+</button>
+</div>
+</div>
+
+<div class="self-stretch flex items-start justify-center py-0 pl-[29px] pr-5 box-border max-w-full text-[300px]">
+<div class="flex flex-col items-start max-w-full">
+<div class="flex items-start py-0 pl-[953px] pr-[952px] lg:pl-[238px] lg:pr-[238px] lg:box-border mq450:pl-5 mq450:pr-5 mq450:box-border">
+<h2 class="m-0 w-[1462px] relative text-[length:inherit] leading-[347px] lowercase inline-block italic font-light font-[inherit] z-[2] lg:text-[120px] lg:leading-[208px] mq450:text-[75px] mq450:leading-[139px]">PICKUP ONLY</h2>
+</div>
+<div class="self-stretch flex flex-col items-start pt-[253px] pb-[194px] pl-[109px] pr-[92px] relative isolate gap-[2912px] z-[1] mt-[-253px] text-[150px] lg:gap-[728px] lg:pt-[2560px] lg:pb-[34px] lg:pl-[27px] lg:pr-[23px] lg:box-border mq450:gap-[364px]">
+<div class="w-full h-full absolute !!m-[0 important] top-[0px] right-[0px] bottom-[0px] left-[0px] shrink-0">
+<div class="absolute h-full w-full top-[0px] right-[0px] bottom-[0px] left-[0px] rounded-[50%] [background:radial-gradient(49.4%_41.24%_at_50%_50%,_#000,_#d9d9d9)]"></div>
+<img class="absolute top-[739px] left-[411px] rounded-[1220px] w-[2561px] h-[2545px] object-cover z-[1]" loading="lazy" alt="" src="./Public/image-675456987ea22-1@2x.png" />
+</div>
+<i class="self-stretch relative leading-[347px] lowercase font-light z-[3] shrink-0 lg:text-6xl lg:leading-[208px] mq450:text-[37px] mq450:leading-[139px]">любая станция метро внутри садового кольца</i>
+<div class="flex items-start py-0 pl-[412px] pr-[408px] shrink-0 lg:pl-[103px] lg:pr-[102px] lg:box-border mq450:pl-5 mq450:pr-5 mq450:box-border">
+<i class="w-[2346px] relative leading-[347px] lowercase inline-block font-light z-[2] lg:text-6xl lg:leading-[208px] mq450:text-[37px] mq450:leading-[139px]">NO DELIVERY · RESTRICTIONS ON TRANSPORT</i>
+</div>
+</div>
+</div>
+</div>
+
+<div class="flex items-start justify-end py-0 px-[488px] box-border max-w-full text-[#fff] lg:pl-[122px] lg:pr-[122px] lg:box-border mq450:pl-5 mq450:pr-5 mq450:box-border">
+<a href="https://instagram.com/sfnr" target="_blank" rel="noopener" class="access-link">
+<div class="bg-[#000] flex items-start pt-[35px] pb-9 pl-[992px] pr-[988px] box-border max-w-full z-[1] lg:pl-[248px] lg:pr-[247px] lg:box-border mq450:pt-[2560px] mq450:px-5 mq450:pb-[23px] mq450:box-border">
+<div class="h-[418px] w-[2561px] relative bg-[#000] hidden max-w-full shrink-0"></div>
+<i class="w-[581px] relative leading-[347px] uppercase inline-block font-light z-[2] shrink-0 lg:text-6xl lg:leading-[208px] mq450:text-[37px] mq450:leading-[139px]">access</i>
+</div>
+</a>
+</div>
+</section>
+
+<div class="flex items-start py-0 pl-[1536px] pr-[1527px] mt-[-36px] relative shrink-0 lg:pl-96 lg:pr-[381px] lg:box-border mq450:pl-5 mq450:pr-5 mq450:box-border">
+<i class="w-[499px] relative leading-[347px] uppercase inline-block font-light z-[3] lg:text-[50px] lg:leading-[208px] mq450:text-3xl mq450:leading-[139px]">@SFR8SFR</i>
+</div>
+</main>
+</div>
+
+<div id="lighter-modal" onclick="closeModal()">
+<img id="modal-img" src="./Lighters/IMG_9407.JPG" alt="Lighter" onclick="event.stopPropagation()" />
+<div id="modal-added">✓ Добавлено в корзину</div>
+<button id="modal-close" onclick="closeModal()">Закрыть</button>
+</div>
+
+<div id="cart-toast">Добавлено в корзину!</div>
+
+<script>
+function openModal(src) {
+document.getElementById('modal-img').src = src;
+document.getElementById('lighter-modal').classList.add('open');
+document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+document.getElementById('lighter-modal').classList.remove('open');
+document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+if (e.key === 'Escape') closeModal();
+});
+
+let toastTimer = null;
+
+function showToast() {
+const toast = document.getElementById('cart-toast');
+if (toastTimer) clearTimeout(toastTimer);
+toast.classList.add('show');
+toastTimer = setTimeout(function() {
+toast.classList.remove('show');
+}, 2800);
+}
+</script>
+</body>
+</html>
