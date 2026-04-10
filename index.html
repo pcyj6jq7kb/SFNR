@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sparks For No Reason</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #ebebeb;
+    color: #000;
+    overflow-x: hidden;
+    max-width: 430px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  /* ── HERO ── */
+  .hero img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ── HEADLINE ── */
+  .headline {
+    background: #ebebeb;
+    padding: 36px 22px 32px;
+  }
+  .headline h1 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(34px, 9.5vw, 48px);
+    line-height: 1.06;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── YELLOW STRIP ── */
+  .yellow-strip {
+    background: #FFFF00;
+    padding: 11px 22px;
+    text-align: center;
+  }
+  .yellow-strip p {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #000;
+    line-height: 1.9;
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: #000;
+    padding: 7px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-flex;
+    animation: scroll-left 10s linear infinite;
+  }
+  .ticker-track span {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 0 20px;
+  }
+  .ticker-track span::before {
+    content: '·';
+    margin-right: 20px;
+    color: #555;
+  }
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── BANNER ── */
+  .banner img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ── GALLERY ── */
+  .gallery-section {
+    background: #ebebeb;
+    padding: 22px 0 0;
+  }
+  .gallery-label {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 16px;
+    margin: 0 16px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .gallery-rail {
+    overflow: hidden;
+    padding: 16px 0 20px;
+    cursor: grab;
+    user-select: none;
+  }
+  .gallery-rail.dragging { cursor: grabbing; }
+  .gallery-track {
+    display: flex;
+    gap: 3px;
+    width: max-content;
+    animation: gallery-loop 18s linear infinite;
+    will-change: transform;
+  }
+  .gallery-track.paused { animation-play-state: paused; }
+  @keyframes gallery-loop {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .g-card {
+    flex-shrink: 0;
+    width: 27vw;
+    max-width: 115px;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+  .g-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center 10%;
+    display: block;
+    pointer-events: none;
+  }
+  .g-num {
+    position: absolute;
+    bottom: 7px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(0,0,0,0.35);
+    text-transform: uppercase;
+  }
+
+  /* ── PRICING ── */
+  .pricing {
+    background: #000;
+    padding: 0 18px;
+  }
+  .set-block {
+    padding: 28px 0 24px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .set-block:last-child { border-bottom: none; }
+
+  .set-row {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .set-photo {
+    width: 150px;
+    height: 200px;
+    flex-shrink: 0;
+    background-repeat: no-repeat;
+    background-color: #000;
+    background-size: contain;
+    background-position: center center;
+  }
+  .set-photo-top {
+    background-image: url('set-590.png');
+  }
+  .set-photo-bottom {
+    background-image: url('set-890.png');
+  }
+  .set-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .set-price {
+    font-size: 56px;
+    font-weight: 300;
+    font-style: italic;
+    color: #FFFF00;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-align: right;
+    padding-top: 18px;
+  }
+  .set-name-block {
+    /* прижимаем название и подпись к низу */
+  }
+  .set-name {
+    font-size: 26px;
+    font-weight: 700;
+    font-style: italic;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .set-note {
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .set-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: #FFFF00;
+    color: #000;
+    font-size: 10px;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.3em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: opacity 0.15s;
+  }
+  .set-btn:active { opacity: 0.75; }
+
+  /* ── PICKUP ── */
+  .pickup {
+    background: #ebebeb;
+    padding: 44px 22px 24px;
+    text-align: center;
+  }
+  .pickup-title {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 38px;
+    color: #000;
+    margin-bottom: 14px;
+  }
+  .pickup-text {
+    font-size: 12px;
+    color: #444;
+    letter-spacing: 0.03em;
+    margin-bottom: 36px;
+    line-height: 1.5;
+  }
+  .metro-img {
+    width: 90%;
+    max-width: 340px;
+    display: block;
+    margin: 0 auto 28px;
+    mix-blend-mode: darken;
+  }
+  .no-delivery {
+    font-size: 8.5px;
+    color: #777;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  /* ── CTA ── */
+  .cta {
+    background: #ebebeb;
+    padding: 0 18px 52px;
+  }
+  .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    background: #000;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.55em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    transition: opacity 0.15s;
+  }
+  .cta-btn:active { opacity: 0.75; }
+  .cta-handle {
+    text-align: center;
+    font-size: 8.5px;
+    color: #bbb;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <span>Limited Drop 001</span>
+  <span>Moscow</span>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="hero.jpg" alt="Sparks For No Reason">
+</div>
+
+<!-- HEADLINE -->
+<div class="headline">
+  <h1>Every Non<br>Smoker Has A<br>Lighter<br>Obsession</h1>
+</div>
+
+<!-- YELLOW STRIP -->
+<div class="yellow-strip">
+  <p>Limited Lighter Sets<br>Choose Your Design · No Repeats</p>
+</div>
+
+<!-- TICKER TOP -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+  </div>
+</div>
+
+<!-- BANNER -->
+<div class="banner">
+  <img src="banner.jpg" alt="Sparks For No Reason">
+</div>
+
+<!-- TICKER BOTTOM -->
+<div class="ticker">
+  <div class="ticker-track" style="animation-direction: reverse;">
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+    <span>LIMITED</span><span>NO REPEATS</span><span>YOUR CHOICE</span><span>CHANCE</span>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery-section">
+  <p class="gallery-label">10 Designs</p>
+  <div class="gallery-rail">
+    <div class="gallery-track" id="galleryTrack">
+      <div class="g-card"><img src="lighters/01.jpg" alt="01"><span class="g-num">01</span></div>
+      <div class="g-card"><img src="lighters/02.jpg" alt="02"><span class="g-num">02</span></div>
+      <div class="g-card"><img src="lighters/03.jpg" alt="03"><span class="g-num">03</span></div>
+      <div class="g-card"><img src="lighters/04.jpg" alt="04"><span class="g-num">04</span></div>
+      <div class="g-card"><img src="lighters/05.jpg" alt="05"><span class="g-num">05</span></div>
+      <div class="g-card"><img src="lighters/06.jpg" alt="06"><span class="g-num">06</span></div>
+      <div class="g-card"><img src="lighters/07.jpg" alt="07"><span class="g-num">07</span></div>
+      <div class="g-card"><img src="lighters/08.jpg" alt="08"><span class="g-num">08</span></div>
+      <div class="g-card"><img src="lighters/09.jpg" alt="09"><span class="g-num">09</span></div>
+      <div class="g-card"><img src="lighters/10.jpg" alt="10"><span class="g-num">10</span></div>
+      <!-- дубль для бесконечной петли -->
+      <div class="g-card"><img src="lighters/01.jpg" alt="01"><span class="g-num">01</span></div>
+      <div class="g-card"><img src="lighters/02.jpg" alt="02"><span class="g-num">02</span></div>
+      <div class="g-card"><img src="lighters/03.jpg" alt="03"><span class="g-num">03</span></div>
+      <div class="g-card"><img src="lighters/04.jpg" alt="04"><span class="g-num">04</span></div>
+      <div class="g-card"><img src="lighters/05.jpg" alt="05"><span class="g-num">05</span></div>
+      <div class="g-card"><img src="lighters/06.jpg" alt="06"><span class="g-num">06</span></div>
+      <div class="g-card"><img src="lighters/07.jpg" alt="07"><span class="g-num">07</span></div>
+      <div class="g-card"><img src="lighters/08.jpg" alt="08"><span class="g-num">08</span></div>
+      <div class="g-card"><img src="lighters/09.jpg" alt="09"><span class="g-num">09</span></div>
+      <div class="g-card"><img src="lighters/10.jpg" alt="10"><span class="g-num">10</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing">
+
+  <!-- SET 1: 2 Lighters -->
+  <div class="set-block">
+    <div class="set-row">
+      <div class="set-photo set-photo-top"></div>
+      <div class="set-info">
+        <div class="set-price">590₽</div>
+        <div class="set-name-block">
+          <div class="set-name">2 Lighters</div>
+          <div class="set-note">One Pick · One Surprise</div>
+        </div>
+      </div>
+    </div>
+    <a href="https://t.me/SparksFNRbot" class="set-btn">I Want This</a>
+  </div>
+
+  <!-- SET 2: Lighter + Palo Santo -->
+  <div class="set-block">
+    <div class="set-row">
+      <div class="set-photo set-photo-bottom"></div>
+      <div class="set-info">
+        <div class="set-price">890₽</div>
+        <div class="set-name-block">
+          <div class="set-name">Lighter<br>+ Palo Santo</div>
+          <div class="set-note">Fire &amp; Smoke</div>
+        </div>
+      </div>
+    </div>
+    <a href="https://t.me/SparksFNRbot" class="set-btn">I Want This</a>
+  </div>
+
+</div>
+
+<!-- PICKUP + CTA — единый серый блок -->
+<div class="pickup">
+  <h2 class="pickup-title">pickup only</h2>
+  <p class="pickup-text">любая станция метро внутри садового кольца</p>
+  <img class="metro-img" src="metro.jpg" alt="Карта метро Москвы">
+  <p class="no-delivery">no delivery · restrictions on transport</p>
+</div>
+<div class="cta">
+  <a href="https://t.me/SparksFNRbot" class="cta-btn">Access</a>
+  <p class="cta-handle">@SparksFNRbot</p>
+</div>
+
+<script>
+(function () {
+  const rail  = document.querySelector('.gallery-rail');
+  const track = document.getElementById('galleryTrack');
+
+  // Текущий сдвиг, накопленный от свайпов
+  let offset   = 0;
+  // Ширина одного полного цикла (10 карточек) — вычисляется после загрузки
+  let cycleW   = 0;
+
+  // Скорость автопрокрута (px/frame)
+  const AUTO_SPEED = 0.55;
+  let autoRaf  = null;
+  let dragging = false;
+  let startX   = 0;
+  let startOff = 0;
+
+  function getCardWidth() {
+    const card = track.querySelector('.g-card');
+    if (!card) return 0;
+    return card.offsetWidth + 3; // width + gap
+  }
+
+  function init() {
+    cycleW = getCardWidth() * 10;
+    // Отключаем CSS-анимацию и берём управление на себя
+    track.style.animation = 'none';
+    track.style.transform = `translateX(0px)`;
+    startAuto();
+  }
+
+  function applyTransform() {
+    // Держим offset в пределах [0, cycleW)
+    if (offset <= -cycleW) offset += cycleW;
+    if (offset > 0)        offset -= cycleW;
+    track.style.transform = `translateX(${offset}px)`;
+  }
+
+  // ── Автопрокрут ──
+  function autoStep() {
+    if (!dragging) {
+      offset -= AUTO_SPEED;
+      applyTransform();
+    }
+    autoRaf = requestAnimationFrame(autoStep);
+  }
+
+  function startAuto() {
+    if (!autoRaf) autoRaf = requestAnimationFrame(autoStep);
+  }
+
+  // ── Touch ──
+  rail.addEventListener('touchstart', function (e) {
+    dragging = true;
+    startX   = e.touches[0].clientX;
+    startOff = offset;
+    rail.classList.add('dragging');
+  }, { passive: true });
+
+  rail.addEventListener('touchmove', function (e) {
+    if (!dragging) return;
+    const dx = e.touches[0].clientX - startX;
+    offset = startOff + dx;
+    applyTransform();
+  }, { passive: true });
+
+  rail.addEventListener('touchend', function () {
+    dragging = false;
+    rail.classList.remove('dragging');
+  });
+
+  // ── Mouse (десктоп) ──
+  rail.addEventListener('mousedown', function (e) {
+    dragging = true;
+    startX   = e.clientX;
+    startOff = offset;
+    rail.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', function (e) {
+    if (!dragging) return;
+    offset = startOff + (e.clientX - startX);
+    applyTransform();
+  });
+
+  window.addEventListener('mouseup', function () {
+    if (dragging) {
+      dragging = false;
+      rail.classList.remove('dragging');
+    }
+  });
+
+  // Запуск после загрузки изображений
+  window.addEventListener('load', init);
+  // Запасной вариант если load уже прошёл
+  if (document.readyState === 'complete') init();
+})();
+</script>
+</body>
+</html>
